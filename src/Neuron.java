@@ -6,26 +6,28 @@ public class Neuron {
     private String itemName ;
     DecimalFormat df = new DecimalFormat("0.0000");
 
-    // static double[] inputArray = new double[4];
     double[] weightArray ;
     public Neuron(String itemName) {
+        // 4 ELEMANLI AGIRLIKLAR LISTESI OLUSTURUYORUZ
         weightArray= new double[4];
 
         this.itemName = itemName;
         Random random = new Random();
+        // 0 ILE 1 ARASINDAN RASGELE 4 TANE AGIRLIK OLUSTURUYORUZ
         for (int i = 0; i < 4; i++) {
-            double double1 =random.nextDouble(1);
-            weightArray[i] = double1;
+            double int1 =random.nextDouble(1);
+            weightArray[i] = int1;
         }
     }
 
+    // GEREKLI TOPLAMA İSLEMLERİNİ YAPAN FONKSİYON
     public double calculate(String[] inputArray) {
         double sum = 0;
         for (int i = 0; i < inputArray.length-1; i++) {
+            // GELEN STRİNG İFADEYİ DOUBLE A CEVIRIP NORMALİZASYON ISLEMINI YAPTIK
             double input = Double.parseDouble(inputArray[i])/10;
             sum +=  input* weightArray[i];
         }
-//	        System.out.println(sum);
         return sum;
     }
 
@@ -33,12 +35,14 @@ public class Neuron {
         System.out.println(this.getItemName()+"--"+Arrays.toString(this.getWeightArray()));
 
     }
+    // AGIRLIKLARI LANDA ILE ORANTILI ARTTIRAN FONKSIYON
     public void increaseWeight(double landa,String[] inputArray) {
         for (int i = 0; i < weightArray.length; i++) {
             weightArray[i] += (landa*(Double.parseDouble(inputArray[i])/10));
         }
     }
 
+    // AGIRLIKLARI LANDA ILE ORANTILI AZALTAN FONKSIYON
     public void decreaseWeight(double landa,String[] inputArray) {
         for (int i = 0; i < weightArray.length; i++) {
             weightArray[i] -= (landa*(Double.parseDouble(inputArray[i])/10));
@@ -49,12 +53,7 @@ public class Neuron {
         return weightArray;
     }
 
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
     public String getItemName() {
         return this.itemName;
     }
-
 }

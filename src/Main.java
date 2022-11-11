@@ -1,12 +1,18 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Main {
+    static DecimalFormat df = new DecimalFormat("0.00");
+
     public static void main(String[] args) {
-        Path filePath = Path.of("D:\\NEURAL NETWORK\\iris.data");
+        Path filePath = Path.of("iris.data");
+        double result2025,result5025,result10025;
+        double result2010,result5010,result10010;
+        double result2005,result5005,result10005;
 
         NeuralNetwork NNetWorkhundred1 = new NeuralNetwork();
         NeuralNetwork NNetWorkfifty1 = new NeuralNetwork();
@@ -18,117 +24,49 @@ public class Main {
         NeuralNetwork NNetWorkfifty5 = new NeuralNetwork();
         NeuralNetwork NNetWorktwenty5 = new NeuralNetwork();
         ArrayList<String []> aray = ReadData(filePath);
-        // 20 epok
-        System.out.println("-----------------------------");
-//        NNetWorktwenty25.Output("Başlangıç");
-        System.out.println("-----------------------------");
 
-        NNetWorktwenty25.Train(aray, 0.025, 20);
-        NNetWorktwenty25.Test(aray);
-        System.out.println("-----------------------------");
 
-//        NNetWorktwenty25.Output("tset20");
-        System.out.println("-----------------------------");
-
-        //50 epok
-//        NNetWorkfifty25.Output("Başlangıç");
-        System.out.println("-----------------------------");
-
-        NNetWorkfifty25.Train(aray, 0.025, 50);
-//        NNetWorkfifty25.Output("Eğiitim");
-        NNetWorkfifty25.Test(aray);
-        System.out.println("-----------------------------");
-
-//        NNetWorkfifty25.Output("tset50");
-        System.out.println("-----------------------------");
-
-//        NNetWorkhundred25.Output("dsad");
-        System.out.println("-----------------------------");
-
-        // 10 epok
-//        NNetWorkten.Output("Başlangıç");
+        // 0.025 LANDA ILE YAPILAN EGITIMLER
         NNetWorkhundred25.Train(aray, 0.025, 100);
-//        NNetWorkten.Output("Eğiitim");
-        NNetWorkhundred25.Test(aray);
-//        NNetWorkten.Output("tset10");
+        NNetWorkfifty25.Train(aray, 0.025, 50);
+        NNetWorktwenty25.Train(aray, 0.025, 20);
 
-//        NNetWorkhundred25.Output("dsad");
-        // 20 epok
-        System.out.println("****************************************");
-//        NNetWorktwenty5.Output("Başlangıç");
-        System.out.println("-----------------------------");
+        // 0.025 LANDA ILE YAPILAN TESTLER
+        result2025=NNetWorktwenty25.Test(aray);
+        result5025=NNetWorkfifty25.Test(aray);
+        result10025=NNetWorkhundred25.Test(aray);
 
+
+        // 0.005 LANDA ILE YAPILAN EGITIMLER
         NNetWorktwenty5.Train(aray, 0.005, 20);
-        NNetWorktwenty5.Test(aray);
-        System.out.println("-----------------------------");
-
-//        NNetWorktwenty5.Output("tset20");
-        System.out.println("-----------------------------");
-
-        //50 epok
-//        NNetWorkfifty5.Output("Başlangıç");
-        System.out.println("-----------------------------");
-
         NNetWorkfifty5.Train(aray, 0.005, 50);
-//        NNetWorkfifty5.Output("Eğiitim");
-        NNetWorkfifty5.Test(aray);
-        System.out.println("-----------------------------");
-
-//        NNetWorkfifty5.Output("tset50");
-        System.out.println("-----------------------------");
-
-//        NNetWorkhundred5.Output("dsad");
-        System.out.println("-----------------------------");
-
-        // 10 epok
-//        NNetWorkten.Output("Başlangıç");
         NNetWorkhundred5.Train(aray, 0.005, 100);
-//        NNetWorkten.Output("Eğiitim");
-        NNetWorkhundred5.Test(aray);
-//        NNetWorkten.Output("tset10");
 
-//        NNetWorkhundred5.Output("dsad");
+        // 0.005 LANDA ILE YAPILAN TESTLER
+        result2005=NNetWorktwenty5.Test(aray);
+        result5005=NNetWorkfifty5.Test(aray);
+        result10005=NNetWorkhundred5.Test(aray);
 
-        // 20 epok
-        System.out.println("**********************************************");
-//        NNetWorktwenty1.Output("Başlangıç");
-        System.out.println("-----------------------------");
 
+        // 0.01 LANDA ILE YAPILAN EGITIMLER
         NNetWorktwenty1.Train(aray, 0.01, 20);
-        NNetWorktwenty1.Test(aray);
-        System.out.println("-----------------------------");
-
-//        NNetWorktwenty1.Output("tset20");
-        System.out.println("-----------------------------");
-
-        //50 epok
-//        NNetWorkfifty1.Output("Başlangıç");
-        System.out.println("-----------------------------");
-
         NNetWorkfifty1.Train(aray, 0.01, 50);
-//        NNetWorkfifty1.Output("Eğiitim");
-        NNetWorkfifty1.Test(aray);
-        System.out.println("-----------------------------");
-
-//        NNetWorkfifty1.Output("tset50");
-        System.out.println("-----------------------------");
-
-//        NNetWorkhundred1.Output("dsad");
-        System.out.println("-----------------------------");
-
-        // 10 epok
-//        NNetWorkten.Output("Başlangıç");
         NNetWorkhundred1.Train(aray, 0.01, 100);
-//        NNetWorkten.Output("Eğiitim");
-        NNetWorkhundred1.Test(aray);
-//        NNetWorkten.Output("tset10");
 
-//        NNetWorkhundred1.Output("dsad");
+        // 0.01 LANDA ILE YAPILAN TESTLER
+        result2010=NNetWorktwenty1.Test(aray);
+        result5010=NNetWorkfifty1.Test(aray);
+        result10010=NNetWorkhundred1.Test(aray);
+
+        // CIKAN SONUCLARI BİR LISTEYE ATIYORUZ
+        double[] resultArr = {result2010,result5010,result10010,result2025,result5025,result10025,result2005,result5005,result10005};
+
+        showInfo(resultArr);
     }
 
+    // VERIYI CEKIP ARRAYLISTE ATAN METHOD
     public static ArrayList<String []> ReadData(Path filePath) {
         ArrayList<String []> RawDataset = new ArrayList<String []>();
-
         String arr;
         try {
             arr = Files.readString(filePath);
@@ -139,38 +77,57 @@ public class Main {
         }
         if (arr == "Boş") {
             System.out.println(arr);}
-//        System.out.println("-------------");
         String arr1=arr.strip();
-//        System.out.println(arr1);
-//        System.out.println("-------------");
         String[] rawData = arr1.split("\n");
-
-//        System.out.println(Arrays.toString(rawData));
-//        System.out.println(rawData.length);
-
         for (String line:rawData) {
             String[] lineData = line.split(",");
-//        	System.out.println(Arrays.toString(lineData));
             RawDataset.add(lineData);
         }
-//        ArrayList<String[]> arr2 = ShuffleArray(RawDataset);
-
         return RawDataset;
     }
 
-    public static ArrayList<String []> ShuffleArray(ArrayList<String []> RawDatasetX){
-        ArrayList<String []> RawDataset1 = new ArrayList<String []>();
-        Random rnd = new Random();
-        for (int i=0;i<150;i++) {
-            int randNm = rnd.nextInt(RawDatasetX.size());
-            RawDataset1.add(RawDatasetX.get(randNm));
-            RawDatasetX.remove(randNm);
+    // SONUCLARI EKRANA BASTIRAN METHOD
+    public static void showInfo(double[] resultArray) {
+        System.out.print(" epok ");
+        System.out.print("----");
+        System.out.print("20");
+        System.out.print("--------");
+        System.out.print("50");
+        System.out.print("------");
+        System.out.print("100");
+        System.out.println();
+        System.out.print("landa ");
+        System.out.print("--------");
+        System.out.print("--");
+        System.out.print("------");
+        System.out.print("--");
+        System.out.print("------");
+        System.out.print("--");
+        System.out.println();
+        System.out.print("0,010");
+        System.out.print("----");
+        System.out.print(df.format(resultArray[0]));
+        System.out.print("----");
+        System.out.print(df.format(resultArray[1]));
+        System.out.print("----");
+        System.out.print(df.format(resultArray[2]));
+        System.out.println();
+        System.out.print("0,025");
+        System.out.print("----");
+        System.out.print(df.format(resultArray[3]));
+        System.out.print("----");
+        System.out.print(df.format(resultArray[4]));
+        System.out.print("----");
+        System.out.print(df.format(resultArray[5]));
+        System.out.println();
+        System.out.print("0,005");
+        System.out.print("----");
+        System.out.print(df.format(resultArray[6]));
+        System.out.print("----");
+        System.out.print(df.format(resultArray[7]));
+        System.out.print("----");
+        System.out.print(df.format(resultArray[8]));
+        System.out.println();
 
-
-        }
-
-
-
-        return  RawDataset1;
     }
 }
