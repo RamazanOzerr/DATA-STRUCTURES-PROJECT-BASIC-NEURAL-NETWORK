@@ -3,7 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Arrays;
 
 public class Main {
     static DecimalFormat df = new DecimalFormat("0.00");
@@ -14,52 +14,58 @@ public class Main {
         double result2010,result5010,result10010;
         double result2005,result5005,result10005;
 
-        NeuralNetwork NNetWorkhundred1 = new NeuralNetwork();
-        NeuralNetwork NNetWorkfifty1 = new NeuralNetwork();
-        NeuralNetwork NNetWorktwenty1 = new NeuralNetwork();
-        NeuralNetwork NNetWorkhundred25 = new NeuralNetwork();
-        NeuralNetwork NNetWorkfifty25 = new NeuralNetwork();
-        NeuralNetwork NNetWorktwenty25 = new NeuralNetwork();
-        NeuralNetwork NNetWorkhundred5 = new NeuralNetwork();
-        NeuralNetwork NNetWorkfifty5 = new NeuralNetwork();
-        NeuralNetwork NNetWorktwenty5 = new NeuralNetwork();
+        NeuralNetwork NNetWork1 = new NeuralNetwork();
+        NeuralNetwork NNetWork25 = new NeuralNetwork();
+        NeuralNetwork NNetWork5 = new NeuralNetwork();
+
         ArrayList<String []> aray = ReadData(filePath);
 
 
         // 0.025 LANDA ILE YAPILAN EGITIMLER
-        NNetWorkhundred25.Train(aray, 0.025, 100);
-        NNetWorkfifty25.Train(aray, 0.025, 50);
-        NNetWorktwenty25.Train(aray, 0.025, 20);
+        //modelimizi oncelikle 20 epok egitiyoruz
+        NNetWork25.Train(aray, 0.025, 20);
+        result2025=NNetWork25.Test(aray);
 
-        // 0.025 LANDA ILE YAPILAN TESTLER
-        result2025=NNetWorktwenty25.Test(aray);
-        result5025=NNetWorkfifty25.Test(aray);
-        result10025=NNetWorkhundred25.Test(aray);
+        // daha sonradan 30 epok daha egitip 50 epoga tamamlıyoruz
+        NNetWork25.Train(aray, 0.025, 30);
+        result5025=NNetWork25.Test(aray);
+
+        // daha sonradan 50 epok daha egitip 100 epoga tamamlıyoruz
+        NNetWork25.Train(aray, 0.025, 50);
+        result10025=NNetWork25.Test(aray);
 
 
         // 0.005 LANDA ILE YAPILAN EGITIMLER
-        NNetWorktwenty5.Train(aray, 0.005, 20);
-        NNetWorkfifty5.Train(aray, 0.005, 50);
-        NNetWorkhundred5.Train(aray, 0.005, 100);
+        //modelimizi oncelikle 20 epok egitiyoruz
+        NNetWork5.Train(aray, 0.005, 20);
+        result2005=NNetWork5.Test(aray);
 
-        // 0.005 LANDA ILE YAPILAN TESTLER
-        result2005=NNetWorktwenty5.Test(aray);
-        result5005=NNetWorkfifty5.Test(aray);
-        result10005=NNetWorkhundred5.Test(aray);
+        // daha sonradan 30 epok daha egitip 50 epoga tamamlıyoruz
+        NNetWork5.Train(aray, 0.005, 30);
+        result5005=NNetWork5.Test(aray);
+
+        // daha sonradan 50 epok daha egitip 100 epoga tamamlıyoruz
+        NNetWork5.Train(aray, 0.005, 50);
+        result10005=NNetWork5.Test(aray);
 
 
         // 0.01 LANDA ILE YAPILAN EGITIMLER
-        NNetWorktwenty1.Train(aray, 0.01, 20);
-        NNetWorkfifty1.Train(aray, 0.01, 50);
-        NNetWorkhundred1.Train(aray, 0.01, 100);
+        //modelimizi oncelikle 20 epok egitiyoruz
+        NNetWork1.Train(aray, 0.01, 20);
+        result2010=NNetWork1.Test(aray);
 
-        // 0.01 LANDA ILE YAPILAN TESTLER
-        result2010=NNetWorktwenty1.Test(aray);
-        result5010=NNetWorkfifty1.Test(aray);
-        result10010=NNetWorkhundred1.Test(aray);
+        // daha sonradan 30 epok daha egitip 50 epoga tamamlıyoruz
+        NNetWork1.Train(aray, 0.01, 30);
+        result5010=NNetWork1.Test(aray);
+
+        // daha sonradan 50 epok daha egitip 100 epoga tamamlıyoruz
+        NNetWork1.Train(aray, 0.01, 50);
+        result10010=NNetWork1.Test(aray);
+
+
 
         // CIKAN SONUCLARI BİR LISTEYE ATIYORUZ
-        double[] resultArr = {result2010,result5010,result10010,result2025,result5025,result10025,result2005,result5005,result10005};
+        double[] resultArr = {result2005,result5005,result10005,result2010,result5010,result10010,result2025,result5025,result10025};
 
         showInfo(resultArr);
     }
@@ -104,7 +110,7 @@ public class Main {
         System.out.print("------");
         System.out.print("--");
         System.out.println();
-        System.out.print("0,010");
+        System.out.print("0,005");
         System.out.print("----");
         System.out.print(df.format(resultArray[0]));
         System.out.print("----");
@@ -112,7 +118,7 @@ public class Main {
         System.out.print("----");
         System.out.print(df.format(resultArray[2]));
         System.out.println();
-        System.out.print("0,025");
+        System.out.print("0,010");
         System.out.print("----");
         System.out.print(df.format(resultArray[3]));
         System.out.print("----");
@@ -120,7 +126,7 @@ public class Main {
         System.out.print("----");
         System.out.print(df.format(resultArray[5]));
         System.out.println();
-        System.out.print("0,005");
+        System.out.print("0,025");
         System.out.print("----");
         System.out.print(df.format(resultArray[6]));
         System.out.print("----");
@@ -128,6 +134,7 @@ public class Main {
         System.out.print("----");
         System.out.print(df.format(resultArray[8]));
         System.out.println();
+
 
     }
 }
